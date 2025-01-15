@@ -1,7 +1,6 @@
 package io.github.humbleui.skija.svg;
 
 import org.jetbrains.annotations.*;
-import io.github.humbleui.skija.*;
 import io.github.humbleui.skija.impl.*;
 import io.github.humbleui.types.*;
 
@@ -11,6 +10,11 @@ public class SVGSVG extends SVGContainer {
     @ApiStatus.Internal
     public SVGSVG(long ptr) {
         super(ptr);
+    }
+
+    public SVGSVG(SVGSVGType type) {
+        this(_nMake(type.ordinal()));
+        Stats.onNativeCall();
     }
 
     @NotNull
@@ -162,4 +166,5 @@ public class SVGSVG extends SVGContainer {
     @ApiStatus.Internal public static native void _nSetHeight(long ptr, float value, int unit);
     @ApiStatus.Internal public static native void _nSetPreserveAspectRatio(long ptr, int align, int scale);
     @ApiStatus.Internal public static native void _nSetViewBox(long ptr, float l, float t, float r, float b);
+    @ApiStatus.Internal public static native long _nMake(int type);
 }

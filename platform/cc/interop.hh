@@ -15,6 +15,7 @@
 #include "SkRRect.h"
 #include "SkScalar.h"
 #include "SkShaper.h"
+#include "SkSpan.h"
 #include "SkString.h"
 #include "SkSurfaceProps.h"
 
@@ -356,6 +357,7 @@ jfloatArray  javaFloatArray (JNIEnv* env, const std::vector<float>& floats);
 
 std::vector<SkString> skStringVector(JNIEnv* env, jobjectArray arr);
 jobjectArray javaStringArray(JNIEnv* env, const std::vector<SkString>& strings);
+jobjectArray javaStringArray(JNIEnv* env, SkSpan<const SkString> strings);
 
 void deleteJBytes(void* addr, void*);
 

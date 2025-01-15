@@ -3,7 +3,9 @@ package io.github.humbleui.skija.svg;
 import lombok.*;
 import org.jetbrains.annotations.*;
 
-@AllArgsConstructor @Data @With
+@AllArgsConstructor
+@Data
+@With
 public class SVGLength {
     @ApiStatus.Internal public final float _value;
     @ApiStatus.Internal public final SVGLengthUnit _unit;

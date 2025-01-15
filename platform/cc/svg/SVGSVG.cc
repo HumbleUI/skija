@@ -58,29 +58,29 @@ extern "C" JNIEXPORT jobject JNICALL Java_io_github_humbleui_skija_svg_SVGSVG__1
 extern "C" JNIEXPORT void JNICALL Java_io_github_humbleui_skija_svg_SVGSVG__1nSetX
   (JNIEnv* env, jclass jclass, jlong ptr, float value, int unit) {
     SkSVGSVG* instance = reinterpret_cast<SkSVGSVG*>(static_cast<uintptr_t>(ptr));
-    SkSVGLength lenght(value, static_cast<SkSVGLength::Unit>(unit));
-    instance->setX(lenght);
+    SkSVGLength length(value, static_cast<SkSVGLength::Unit>(unit));
+    instance->setX(length);
 }
 
 extern "C" JNIEXPORT void JNICALL Java_io_github_humbleui_skija_svg_SVGSVG__1nSetY
   (JNIEnv* env, jclass jclass, jlong ptr, float value, int unit) {
     SkSVGSVG* instance = reinterpret_cast<SkSVGSVG*>(static_cast<uintptr_t>(ptr));
-    SkSVGLength lenght(value, static_cast<SkSVGLength::Unit>(unit));
-    instance->setY(lenght);
+    SkSVGLength length(value, static_cast<SkSVGLength::Unit>(unit));
+    instance->setY(length);
 }
 
 extern "C" JNIEXPORT void JNICALL Java_io_github_humbleui_skija_svg_SVGSVG__1nSetWidth
   (JNIEnv* env, jclass jclass, jlong ptr, float value, int unit) {
     SkSVGSVG* instance = reinterpret_cast<SkSVGSVG*>(static_cast<uintptr_t>(ptr));
-    SkSVGLength lenght(value, static_cast<SkSVGLength::Unit>(unit));
-    instance->setWidth(lenght);
+    SkSVGLength length(value, static_cast<SkSVGLength::Unit>(unit));
+    instance->setWidth(length);
 }
 
 extern "C" JNIEXPORT void JNICALL Java_io_github_humbleui_skija_svg_SVGSVG__1nSetHeight
   (JNIEnv* env, jclass jclass, jlong ptr, float value, int unit) {
     SkSVGSVG* instance = reinterpret_cast<SkSVGSVG*>(static_cast<uintptr_t>(ptr));
-    SkSVGLength lenght(value, static_cast<SkSVGLength::Unit>(unit));
-    instance->setHeight(lenght);
+    SkSVGLength length(value, static_cast<SkSVGLength::Unit>(unit));
+    instance->setHeight(length);
 }
 
 extern "C" JNIEXPORT void JNICALL Java_io_github_humbleui_skija_svg_SVGSVG__1nSetPreserveAspectRatio
@@ -94,4 +94,10 @@ extern "C" JNIEXPORT void JNICALL Java_io_github_humbleui_skija_svg_SVGSVG__1nSe
   (JNIEnv* env, jclass jclass, jlong ptr, float l, float t, float r, float b) {
     SkSVGSVG* instance = reinterpret_cast<SkSVGSVG*>(static_cast<uintptr_t>(ptr));
     instance->setViewBox(SkRect::MakeLTRB(l, t, r, b));
+}
+
+extern "C" JNIEXPORT jlong JNICALL Java_io_github_humbleui_skija_svg_SVGSVG__1nMake
+  (JNIEnv* env, jclass jclass, jint type) {
+    sk_sp<SkSVGSVG> instance = SkSVGSVG::Make(static_cast<SkSVGSVG::Type>(type));
+    return reinterpret_cast<jlong>(instance.release());
 }

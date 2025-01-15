@@ -23,6 +23,7 @@ public class TestSuite {
         TestRunner.testClass(TextStyleTest.class);
 
         TestRunner.testClass(SVGCanvasTest.class);
+        TestRunner.testClass(SVGNodePropsTest.class);
 
         // TestRunner.testClass(TestTest.class);
         int res = TestRunner.finishTesting();

@@ -1068,6 +1068,15 @@ jobjectArray javaStringArray(JNIEnv* env, const std::vector<SkString>& strings) 
     return res;
 }
 
+jobjectArray javaStringArray(JNIEnv* env, SkSpan<const SkString> strings) {
+    jobjectArray res = env->NewObjectArray((jsize) strings.size(), java::lang::String::cls, nullptr);
+    for (jint i = 0; i < (jsize) strings.size(); ++i) {
+        skija::AutoLocal<jstring> str(env, javaString(env, strings[i]));
+        env->SetObjectArrayElement(res, i, str.get());
+    }
+    return res;
+}
+
 void deleteJBytes(void* addr, void*) {
     delete[] (jbyte*) addr;
 }
