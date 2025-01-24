@@ -6,6 +6,32 @@
 #include "SkShader.h"
 #include "interop.hh"
 
+extern "C" JNIEXPORT jlong JNICALL Java_io_github_humbleui_skija_Image__1nAdoptTextureFrom
+  (JNIEnv* env, jclass jclass, jlong contextPtr, jint textureId, jint target, jint width, jint height, jint format, jint surfaceOrigin, jint colorType) {
+
+    GrDirectContext* context = reinterpret_cast<GrDirectContext*>(static_cast<uintptr_t>(contextPtr));
+
+    GrGLTextureInfo textureInfo;
+    textureInfo.fID = static_cast<GrGLuint>(textureId);
+    textureInfo.fTarget = static_cast<GrGLenum>(target);
+    textureInfo.fFormat = static_cast<GrGLenum>(format);
+    
+    GrBackendTexture backendTexture = GrBackendTexture(
+        width, height,
+        skgpu::Mipmapped::kYes,
+        textureInfo
+    );
+
+    sk_sp<SkImage> image = SkImages::AdoptTextureFrom(
+        context,
+        backendTexture,
+        static_cast<GrSurfaceOrigin>(surfaceOrigin),
+        static_cast<SkColorType>(colorType)
+    );
+
+    return reinterpret_cast<jlong>(image.release());
+}
+
 extern "C" JNIEXPORT jlong JNICALL Java_io_github_humbleui_skija_Image__1nMakeRasterFromBytes
   (JNIEnv* env, jclass jclass, jint width, jint height, jint colorType, jint alphaType, jlong colorSpacePtr, jbyteArray bytesArr, jlong rowBytes) {
     SkColorSpace* colorSpace = reinterpret_cast<SkColorSpace*>(static_cast<uintptr_t>(colorSpacePtr));

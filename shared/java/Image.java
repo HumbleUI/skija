@@ -24,6 +24,43 @@ public class Image extends RefCnt implements IHasImageInfo {
     }
 
     /**
+     * <p>Creates Image from an OpenGL texture.</p>
+     *
+     * <p>Image is returned if the texture is valid. Valid texture parameters include:</p>
+     * <ul>
+     * <li>textureId is a valid OpenGL texture ID;</li>
+     * <li>width and height are greater than zero;</li>
+     * <li>ColorType and AlphaType are valid, and ColorType is not ColorType.UNKNOWN;</li>
+     * <li>colorSpace is a valid SkColorSpace;</li>
+     * </ul>
+     *
+     * @param context     GrDirectContext
+     * @param textureId   OpenGL texture ID
+     * @param width       width of the texture
+     * @param height      height of the texture
+     * @param colorType   color type of the texture
+     * @return            Image
+     */
+    public static Image adoptTextureFrom(DirectContext context, int textureId, int target, int width, int height, int format, SurfaceOrigin surfaceOrigin, ColorType colorType) {
+        try {
+            Stats.onNativeCall();
+            long ptr = _nAdoptTextureFrom(Native.getPtr(context),
+                                            textureId,
+                                            target,
+                                            width,
+                                            height,
+                                            format,
+                                            surfaceOrigin.ordinal(),
+                                            colorType.ordinal());
+            if (ptr == 0)
+                throw new RuntimeException("Failed to adoptTextureFrom " + textureId + " " + width + "x" + height);
+            return new Image(ptr);
+        } finally {
+            ReferenceUtil.reachabilityFence(context);
+        }
+    }
+        
+    /**
      * <p>Creates Image from pixels.</p>
      *
      * <p>Image is returned if pixels are valid. Valid Pixmap parameters include:</p>
@@ -382,6 +419,7 @@ public class Image extends RefCnt implements IHasImageInfo {
         }
     }
 
+    @ApiStatus.Internal public static native long _nAdoptTextureFrom(long contextPtr, int textureId, int target, int width, int height, int format, int surfaceOrigin, int colorType);
     @ApiStatus.Internal public static native long _nMakeRasterFromBytes(int width, int height, int colorType, int alphaType, long colorSpacePtr, byte[] pixels, long rowBytes);
     @ApiStatus.Internal public static native long _nMakeRasterFromData(int width, int height, int colorType, int alphaType, long colorSpacePtr, long dataPtr, long rowBytes);
     @ApiStatus.Internal public static native long _nMakeRasterFromBitmap(long bitmapPtr);
