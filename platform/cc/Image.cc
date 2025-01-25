@@ -5,6 +5,11 @@
 #include "SkImage.h"
 #include "SkShader.h"
 #include "interop.hh"
+#include "GrBackendSurface.h"
+#include "GrDirectContext.h"
+#include "include/gpu/GrBackendSurface.h"
+#include "include/gpu/ganesh/SkImageGanesh.h"
+#include "include/gpu/gl/GrGLTypes.h"
 
 extern "C" JNIEXPORT jlong JNICALL Java_io_github_humbleui_skija_Image__1nMakeRasterFromBytes
   (JNIEnv* env, jclass jclass, jint width, jint height, jint colorType, jint alphaType, jlong colorSpacePtr, jbyteArray bytesArr, jlong rowBytes) {
